@@ -6,16 +6,21 @@ defmodule TeleWeather.Bot do
     setup_commands: true
 
   command("start")
+  command("commands", description: "List all the availible commands")
   command("getcodes", description: "List of region codes")
   command("forecast", description: "Get the daily forecast for the specified region")
 
   def bot(), do: @bot
 
   def handle({:command, :start, _msg}, context) do
-    answer(context, "Hi! Welcome to TeleWeather!
-                    \nAvailible commands:
-                    \n /getCodes\n List of region codes
-                    \n /forecast <region_code>\n Get the daily forecast for the specified region\n Ex: /forecast 28115")
+    answer(context, "Hi! Welcome to TeleWeather!\n
+                    Use /commands to see the list of commands")
+  end
+
+  def handle({:command, :commands, _msg}, context) do
+    answer(context, "Availible commands:
+                    \n/getCodes\n List of region codes
+                    \n/forecast <region_code>\n Get the daily forecast for the specified region\n Ex: /forecast 28115")
   end
 
   def handle({:command, :getcodes, _msg}, context) do
