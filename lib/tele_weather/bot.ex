@@ -13,13 +13,13 @@ defmodule TeleWeather.Bot do
   def bot(), do: @bot
 
   def handle({:command, :start, _msg}, context) do
-    answer(context, "Hi! Welcome to TeleWeather!\n
-                    Use /commands to see the list of commands")
+    answer(context, "Hi! Welcome to TeleWeather!
+                    \nUse /commands to see the list of commands")
   end
 
   def handle({:command, :commands, _msg}, context) do
     answer(context, "Availible commands:
-                    \n/getCodes\n List of region codes
+                    \n/getcodes\n List of region codes
                     \n/forecast <region_code>\n Get the daily forecast for the specified region\n Ex: /forecast 28115")
   end
 
