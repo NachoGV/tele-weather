@@ -6,22 +6,20 @@ defmodule TeleWeather.Bot do
     setup_commands: true
 
   command("start")
-  command("getCodes", description: "List of region codes")
+  command("getcodes", description: "List of region codes")
   command("forecast", description: "Get the daily forecast for the specified region")
-
-  middleware(ExGram.Middleware.IgnoreUsername)
 
   def bot(), do: @bot
 
   def handle({:command, :start, _msg}, context) do
     answer(context, "Hi! Welcome to TeleWeather!
                     \nAvailible commands:
-                    \n /getCodes\n List of region codes\n Code = CPRO ++ CMUN
-                    \n /forecast <region_code>\n Get the daily forecast for the specified region")
+                    \n /getCodes\n List of region codes
+                    \n /forecast <region_code>\n Get the daily forecast for the specified region\n Ex: /forecast 28115")
   end
 
-  def handle({:command, :getCodes, _msg}, context) do
-    ExGram.send_document(context.update.message.chat.id ,{:file, "spain_region_codes.xlsx"}, bot: @bot)
+  def handle({:command, :getcodes, _msg}, context) do
+    ExGram.send_document(context.update.message.chat.id ,{:file, "RegionCodes.xlsx"}, bot: @bot)
   end
 
   def handle({:command, :forecast, code}, context) do
