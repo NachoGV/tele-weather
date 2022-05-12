@@ -6,24 +6,34 @@ defmodule TeleWeather.Bot do
     setup_commands: true
 
   command("start")
-  command("help", description: "Print the bot's help")
-  command("forecast", description: "Shows forecast of a region")
+  command("getCodes", description: "List of region codes")
+  command("forecast", description: "Get the daily forecast for the specified region")
 
   middleware(ExGram.Middleware.IgnoreUsername)
 
   def bot(), do: @bot
 
   def handle({:command, :start, _msg}, context) do
-    answer(context, "Hi!")
+    answer(context, "Hi! Welcome to TeleWeather!
+                    \nAvailible commands:
+                    \n /getCodes\n List of region codes\n Code = CPRO ++ CMUN
+                    \n /forecast <region_code>\n Get the daily forecast for the specified region")
   end
 
-  def handle({:command, :help, _msg}, context) do
-    answer(context, "Here is your help:")
+  def handle({:command, :getCodes, _msg}, context) do
+    ExGram.send_document(context.update.message.chat.id ,{:file, "C:\Users\inamo\OneDrive\Escritorio\Uni\tele-weather\20codmun.xlsx"})
   end
 
-  def handle({:command, :forecast, _msg}, context) do
-    {:ok, response} = TeslaApi.get_muni("api/prediccion/especifica/municipio/diaria/28115")
-    answer(context, Map.get(response.body,"datos"))
+  def handle({:command, :forecast, code}, context) do
+    {:ok, response} = TeslaApi.get_muni("api/prediccion/especifica/municipio/diaria/#{code.text}")
+    estado = Map.get(response.body, "estado")
+    case estado do
+      200 ->
+        url = Map.get(response.body,"datos")
+        answer(context, url)
+      _other ->
+        answer(context, "Invalid code")
+    end
   end
 
 end

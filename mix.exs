@@ -27,7 +27,8 @@ defmodule TeleWeather.MixProject do
       {:ex_gram, "~> 0.26.0"},
       {:tesla, "~> 1.2"},
       {:hackney, "~> 1.12"},
-      {:jason, ">= 1.0.0"}
+      {:jason, ">= 1.0.0"},
+      {:httpoison, "~> 1.4"},
     ]
   end
 end
