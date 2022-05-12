@@ -21,7 +21,7 @@ defmodule TeleWeather.Bot do
   end
 
   def handle({:command, :getCodes, _msg}, context) do
-    ExGram.send_document(context.update.message.chat.id ,{:file, "C:\Users\inamo\OneDrive\Escritorio\Uni\tele-weather\20codmun.xlsx"})
+    ExGram.send_document(context.update.message.chat.id ,{:file, "spain_region_codes.xlsx"}, bot: @bot)
   end
 
   def handle({:command, :forecast, code}, context) do
