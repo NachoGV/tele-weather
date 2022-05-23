@@ -28,15 +28,21 @@ defmodule TeleWeather.Bot do
   end
 
   def handle({:command, :forecast, code}, context) do
-    {:ok, response} = TeslaApi.get_muni("api/prediccion/especifica/municipio/diaria/#{code.text}")
+    {:ok, response} = TeslaApi.get_muni("api/prediccion/especifica/municipio/horaria/#{code.text}")
     estado = Map.get(response.body, "estado")
     case estado do
       200 ->
         url = Map.get(response.body,"datos")
-        answer(context, url)
+        {:ok, response} = TeslaApi.get_muni_base(url)
+        datos = List.first(Jason.decode!(Aux.latin1_to_utf8(response.body)))
+        answer(context, "Forecast for:\n#{Map.get(datos, "nombre")}\n\n#{Aux.maps_to_string(Map.get(Map.get(datos, "prediccion"), "dia"))}")
       _other ->
         answer(context, "Invalid code")
     end
+  end
+
+  def handle({:command, :alert, alert}, context) do
+
   end
 
 end
