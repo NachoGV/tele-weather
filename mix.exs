@@ -29,6 +29,7 @@ defmodule TeleWeather.MixProject do
       {:hackney, "~> 1.12"},
       {:jason, ">= 1.0.0"},
       {:httpoison, "~> 1.4"},
+      {:xlsxir, "~> 1.6.4"},
     ]
   end
 end
