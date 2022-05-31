@@ -11,8 +11,11 @@ defmodule TeleWeather.Application do
       # Starts a worker by calling: TeleWeather.Worker.start_link(arg)
       # {TeleWeather.Worker, arg}
       ExGram,
-      {TeleWeather.Bot, [method: :polling, token: "5132964358:AAGqPXBHHWQubRzXB-pOSKM7WAjjBlL4PDY"]}
+      {TeleWeather.Bot, [method: :polling, token: "5132964358:AAGqPXBHHWQubRzXB-pOSKM7WAjjBlL4PDY"]},
     ]
+
+    # Starts an emptry ets
+    :ets.new(:alertas, [:public, :named_table])
 
     # See https://hexdocs.pm/elixir/Supervisor.html
     # for other strategies and supported options
