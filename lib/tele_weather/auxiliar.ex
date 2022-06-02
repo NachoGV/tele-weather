@@ -52,6 +52,7 @@ defmodule Aux do
         check_temps(chatid, code, op, temp, datos, hora_actual, 6)
       _other ->
         ExGram.send_message(chatid, "Invalid code", token: "5132964358:AAGqPXBHHWQubRzXB-pOSKM7WAjjBlL4PDY")
+        exit(-1)
     end
     Process.sleep(3600000)
     handle_alerts(chatid, code, op, temp)
@@ -83,10 +84,6 @@ defmodule Aux do
   def check_temp_over(chatid, temp, [h|t], hora_actual, contador, fecha) do
     hora = String.to_integer(Map.get(h, "periodo"))
     value = Map.get(h, "value")
-    IO.inspect(contador)
-    IO.inspect(hora)
-    IO.inspect(hora_actual)
-    IO.puts("-----------")
     if  hora > hora_actual do
       if value > temp do
         ExGram.send_message(chatid, "Date: #{fecha}\nTime: #{hora}h\nTemperature: #{value}ºC", token: "5132964358:AAGqPXBHHWQubRzXB-pOSKM7WAjjBlL4PDY")
@@ -97,8 +94,21 @@ defmodule Aux do
     end
   end
 
-  def check_temp_under(chatid, temp, datos, cont, hora_actual, fecha) do
-    #ExGram.send_message(chatid, "Date: #{fecha}\nTime: #{}h\nTemperature: #{}ºC", token: "5132964358:AAGqPXBHHWQubRzXB-pOSKM7WAjjBlL4PDY")
+  def check_temp_under(_chatid, _temp, _list, _hora_actual, 0, _fecha) do
+    nil
+  end
+
+  def check_temp_under(chatid, temp, [h|t], hora_actual, contador, fecha) do
+    hora = String.to_integer(Map.get(h, "periodo"))
+    value = Map.get(h, "value")
+    if  hora > hora_actual do
+      if value < temp do
+        ExGram.send_message(chatid, "Date: #{fecha}\nTime: #{hora}h\nTemperature: #{value}ºC", token: "5132964358:AAGqPXBHHWQubRzXB-pOSKM7WAjjBlL4PDY")
+      end
+      check_temp_over(chatid, temp, t, hora_actual, contador-1, fecha)
+    else
+      check_temp_over(chatid, temp, t, hora_actual, contador, fecha)
+    end
   end
 
 end

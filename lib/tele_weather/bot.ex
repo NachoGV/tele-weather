@@ -80,7 +80,6 @@ defmodule TeleWeather.Bot do
 
   end
 
-
   def handle({:command, :my_alerts, _msg}, context) do
     answer(context, "To be implemented ;)")
   end
