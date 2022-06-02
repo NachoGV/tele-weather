@@ -72,19 +72,15 @@ defmodule TeleWeather.Bot do
 
     IO.inspect(pid)
     # añadir a ETS alertas => {pid, chatid, :weather_alert, op, temp}
-
-    case op do
-      "<" -> answer(context, "Alarm set for temperatures under #{temp}")
-      ">" -> answer(context, "Alarm set for temperatures over #{temp}")
-    end
-
+    :ets.insert(:alertas, {chatid, pid, :weather_alert, "#{code} #{op} #{temp}"})
   end
 
   def handle({:command, :my_alerts, _msg}, context) do
-    answer(context, "To be implemented ;)")
+    chatid =  context.update.message.chat.id
+    answer(context, "Alerts:\n#{Aux.alerts_to_string(:ets.lookup(:alertas, chatid))}")
   end
 
-  def handle({:command, :delete_alert, _alert_id}, context) do
+  def handle({:command, :delete_alert, _alert_pid}, context) do
     answer(context, "To be implemented ;)")
   end
 

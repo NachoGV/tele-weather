@@ -49,6 +49,7 @@ defmodule Aux do
         {:ok, response} = TeslaApi.get_muni_base(url)
         datos = Map.get(Map.get(List.first(Jason.decode!(Aux.latin1_to_utf8(response.body))), "prediccion"), "dia")
         hora_actual = elem(elem(:calendar.local_time(), 1), 0)
+        ExGram.send_message(chatid, "Alerts set for: #{code} #{op} #{temp}", token: "5132964358:AAGqPXBHHWQubRzXB-pOSKM7WAjjBlL4PDY")
         check_temps(chatid, code, op, temp, datos, hora_actual, 6)
       _other ->
         ExGram.send_message(chatid, "Invalid code", token: "5132964358:AAGqPXBHHWQubRzXB-pOSKM7WAjjBlL4PDY")
@@ -105,10 +106,18 @@ defmodule Aux do
       if value < temp do
         ExGram.send_message(chatid, "Date: #{fecha}\nTime: #{hora}h\nTemperature: #{value}ºC", token: "5132964358:AAGqPXBHHWQubRzXB-pOSKM7WAjjBlL4PDY")
       end
-      check_temp_over(chatid, temp, t, hora_actual, contador-1, fecha)
+      check_temp_under(chatid, temp, t, hora_actual, contador-1, fecha)
     else
-      check_temp_over(chatid, temp, t, hora_actual, contador, fecha)
+      check_temp_under(chatid, temp, t, hora_actual, contador, fecha)
     end
+  end
+
+  def alerts_to_string([]) do
+    ""
+  end
+
+  def alerts_to_string([h|t]) do
+    "\nAlert pid: #{inspect(elem(h,1))}\nType: #{elem(h,2)}\nCondition: #{elem(h,3)}\n#{alerts_to_string(t)}"
   end
 
 end

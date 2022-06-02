@@ -15,7 +15,7 @@ defmodule TeleWeather.Application do
     ]
 
     # Starts an emptry ets
-    :ets.new(:alertas, [:public, :named_table])
+    :ets.new(:alertas, [:duplicate_bag, :public, :named_table])
 
     # See https://hexdocs.pm/elixir/Supervisor.html
     # for other strategies and supported options
