@@ -69,10 +69,8 @@ defmodule TeleWeather.Bot do
     temp = Enum.at(String.split(alert.text, " "), 2)
     chatid = context.update.message.chat.id
     pid = spawn(fn -> Aux.handle_alerts(chatid, code, op, temp) end)
-
-    IO.inspect(pid)
-    # añadir a ETS alertas => {pid, chatid, :weather_alert, op, temp}
-    :ets.insert(:alertas, {chatid, pid, :weather_alert, "#{code} #{op} #{temp}"})
+    pid_aux = List.first(String.split(Enum.at(String.split(inspect(pid), "<"), 1), ">", trim: true))
+    :ets.insert(:alertas, {chatid, pid_aux, :weather_alert, "#{code} #{op} #{temp}"})
   end
 
   def handle({:command, :my_alerts, _msg}, context) do
@@ -80,8 +78,11 @@ defmodule TeleWeather.Bot do
     answer(context, "Alerts:\n#{Aux.alerts_to_string(:ets.lookup(:alertas, chatid))}")
   end
 
-  def handle({:command, :delete_alert, _alert_pid}, context) do
-    answer(context, "To be implemented ;)")
+  def handle({:command, :delete_alert, alert_pid}, context) do
+    #Process.exit(alert_pid, :normal)
+    IO.inspect(:ets.i(:alertas))
+    IO.inspect(:ets.match(:alertas, {context.update.message.chat.id, alert_pid}))
+    #answer(context, "Alert deleted")
   end
 
 end

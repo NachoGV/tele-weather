@@ -117,7 +117,7 @@ defmodule Aux do
   end
 
   def alerts_to_string([h|t]) do
-    "\nAlert pid: #{inspect(elem(h,1))}\nType: #{elem(h,2)}\nCondition: #{elem(h,3)}\n#{alerts_to_string(t)}"
+    "\nAlert pid: #{elem(h,1)}\nType: #{elem(h,2)}\nCondition: #{elem(h,3)}\n#{alerts_to_string(t)}"
   end
 
 end
