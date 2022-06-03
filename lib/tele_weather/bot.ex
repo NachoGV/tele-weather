@@ -79,10 +79,9 @@ defmodule TeleWeather.Bot do
   end
 
   def handle({:command, :delete_alert, alert_pid}, context) do
-    #Process.exit(alert_pid, :normal)
-    IO.inspect(:ets.i(:alertas))
-    IO.inspect(:ets.match(:alertas, {context.update.message.chat.id, alert_pid}))
-    #answer(context, "Alert deleted")
+    :ets.match_delete(:alertas, {:_, alert_pid.text, :_, :_})
+    Process.exit(IEx.Helpers.pid(alert_pid.text), :normal)
+    answer(context, "Alert deleted")
   end
 
 end
