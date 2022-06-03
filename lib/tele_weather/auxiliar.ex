@@ -1,12 +1,5 @@
 defmodule Aux do
 
-  def get_code(municipio) do
-    codes =
-      %{
-      }
-    Map.get(codes, municipio)
-  end
-
   def latin1_to_utf8(latin1) do
     latin1
     |> :binary.bin_to_list()
