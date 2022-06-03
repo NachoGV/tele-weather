@@ -28,7 +28,7 @@ defmodule TeleWeather.Bot do
                     \n/week_forecast [region_code]\n Get the week forecast for the specified region\n Ex: /week_forecast 28115
                     \n/weather_alert [region_code] [<,>] [degrees]\n Sets an weather alert for checking if temperatures go over/down XºC\n Ex: /weather_alert 28115 > 30\n /weather_alert 28115 < 10
                     \n/my_alerts\n List all user's set alerts
-                    \n/delete_alert [alert_id]\n Deletes the specifies alert")
+                    \n/delete_alert [alert_id]\n Deletes the specifies alert\n Ex: /delete_alert 0.XXX.0")
   end
 
   def handle({:command, :getcodes, _msg}, context) do
