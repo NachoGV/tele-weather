@@ -32,7 +32,7 @@ defmodule TeleWeather.Bot do
   end
 
   def handle({:command, :getcodes, _msg}, context) do
-    ExGram.send_document(context.update.message.chat.id ,{:file, "RegionCodes.xlsx"}, bot: @bot)
+    ExGram.send_document(context.update.message.chat.id ,{:file, "RegionCodes.pdf"}, bot: @bot)
   end
 
   def handle({:command, :forecast, code}, context) do

@@ -14,7 +14,7 @@ defmodule TeleWeather.Application do
       {TeleWeather.Bot, [method: :polling, token: "5132964358:AAGqPXBHHWQubRzXB-pOSKM7WAjjBlL4PDY"]},
     ]
 
-    # Starts an emptry ets
+    # Starts an empty ets
     :ets.new(:alertas, [:duplicate_bag, :public, :named_table])
 
     # See https://hexdocs.pm/elixir/Supervisor.html
